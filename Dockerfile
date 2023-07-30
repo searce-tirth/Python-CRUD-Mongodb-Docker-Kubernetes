@@ -11,8 +11,7 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Copy the Flask application files to the working directory
-COPY app.py .
-COPY index.html .
+COPY . .
 
 # Expose the port the Flask app will listen on
 EXPOSE 80
