@@ -5,8 +5,8 @@ import os
 app = Flask(__name__)
 
 # Connect to MongoDB Atlas
-# mongo_uri = os.environ.get('MONGO_URI')  # Replace with your MongoDB Atlas connection string
-mongo_uri = "mongodb+srv://tirth:4MVkDPk2aPBThkrB@cluster0.4qezvaw.mongodb.net/?retryWrites=true&w=majority"
+mongo_uri = os.environ.get('MONGO_URI')  # Replace with your MongoDB Atlas connection string
+# mongo_uri = "mongodb+srv://tirth:@cluster0.4qezvaw.mongodb.net/?retryWrites=true&w=majority"
 client = MongoClient(mongo_uri)
 db = client.get_database('mydatabase')   # Replace 'mydatabase' with your desired database name
 collection = db.my_collection           # Replace 'my_collection' with your desired collection name
