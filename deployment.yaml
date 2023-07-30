@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: blog-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: blog-app
+  template:
+    metadata:
+      labels:
+        app: blog-app
+    spec:
+      containers:
+        - name: blog-app
+          image: us-central1-docker.pkg.dev/ce-ps3/devops-sprint/blog-app:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+          - containerPort: 80
+          env:
+            - name: MONGODB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongodb-secret
+                  key: MONGODB_PASSWORD
+          env:
+            - name: MONGODB_URL_WITH_PASSWORD
+              value: "mongodb+srv://tirth:$(MONGODB_PASSWORD)@cluster0.4qezvaw.mongodb.net/?retryWrites=true&w=majority"

@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: replica-configmap
+  namespace: your-namespace
+data:
+  replicas: "3"

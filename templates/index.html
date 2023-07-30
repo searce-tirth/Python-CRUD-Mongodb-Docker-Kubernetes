@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Flask CRUD GUI</title>
+    <!-- Include Bootstrap CSS (you can download it or use a CDN) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+<div class="container mt-4">
+    <h1>Simple Flask CRUD GUI</h1>
+    
+    <!-- Form for creating a new record -->
+    <form id="create-form" class="mb-4">
+        <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" placeholder="Enter name" required>
+        </div>
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" class="form-control" id="age" placeholder="Enter age" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" placeholder="Enter email" required>
+        </div>
+        <div class="form-group">
+            <label for="id">Id</label>
+            <input type="number" class="form-control" id="id" placeholder="Enter id" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create</button>
+    </form>
+
+    <!-- Table to display records -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="records-table">
+            <!-- Records will be dynamically populated here -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Include Bootstrap JS and jQuery (you can download them or use a CDN) -->
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript for handling CRUD operations -->
+<script>
+    // $(document).ready(function() {
+        // Function to fetch records from the backend and populate the table
+                    // Function to handle record deletion
+            function deleteRecord(id) {
+            $.ajax({
+                url: `/delete/${id}`,
+                type: "DELETE",
+                success: function(data) {
+                    fetchRecords(); // Refresh the table after deleting a record
+                },
+            });
+        }
+        function fetchRecords() {
+            $.ajax({
+                url: "/read",
+                type: "GET",
+                success: function(data) {
+                    let tableData = "";
+                    data.forEach(function(record) {
+                        tableData += `
+                            <tr>
+                                <td>${record.id}</td>
+                                <td>${record.name}</td>
+                                <td>${record.age}</td>
+                                <td>${record.email}</td>
+                                <td>
+                                    <button class="btn btn-sm btn-warning" onclick="updateRecord('${record.id}')">Update</button>
+                                    <button class="btn btn-sm btn-danger" onclick="deleteRecord('${record.id}')">Delete</button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                    $("#records-table").html(tableData);
+                },
+            });
+        }
+        i = 0
+        // Function to handle form submission for creating a new record
+        $("#create-form").submit(function(e) {
+            e.preventDefault();
+            let name = $("#name").val();
+            let age = $("#age").val();
+            let email = $("#email").val();
+            let id = $("#id").val();
+            $.ajax({
+                url: "/create",
+                type: "POST",
+                data: JSON.stringify({ "name": name, "age": age, "email": email , "id":id}),
+                contentType: "application/json",
+                success: function(data) {
+                    fetchRecords(); // Refresh the table after creating a new record
+                    $("#create-form")[0].reset(); // Clear the form fields
+                },
+            });
+        });
+
+
+        // Function to handle record update
+        function updateRecord(id) {
+            let newAge = prompt("Enter new age:");
+            if (newAge !== null) {
+                $.ajax({
+                    url: `/update/${id}`,
+                    type: "PUT",
+                    data: JSON.stringify({ "age": parseInt(newAge) }),
+                    contentType: "application/json",
+                    success: function(data) {
+                        fetchRecords(); // Refresh the table after updating a record
+                    },
+                });
+            }
+        }
+
+        // Initial fetch to populate the table on page load
+        fetchRecords();
+    // });
+
+</script>
+
+</body>
+</html>
