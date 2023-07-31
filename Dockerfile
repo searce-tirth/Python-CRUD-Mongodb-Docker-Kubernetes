@@ -16,5 +16,7 @@ COPY . .
 # Expose the port the Flask app will listen on
 EXPOSE 80
 
+RUN pip install "pymongo[srv]""
+
 # Command to run the Flask application
 CMD ["python", "main.py"]
