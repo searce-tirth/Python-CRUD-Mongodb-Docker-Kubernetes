@@ -1,10 +1,10 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: neg-blog-app-ing
+  name: neg-sprint-app-ing
 spec:
   defaultBackend:
     service:
-      name: blog-app-svc # Name of the Service targeted by the Ingress
+      name: sprint-app-svc # Name of the Service targeted by the Ingress
       port:
         number: 80 # Should match the port used by the Service
