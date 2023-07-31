@@ -1,20 +1,20 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: blog-app
+  name: sprint-app
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: blog-app
+      app: sprint-app
   template:
     metadata:
       labels:
-        app: blog-app
+        app: sprint-app
     spec:
       containers:
-        - name: blog-app
-          image: us-central1-docker.pkg.dev/ce-ps3/devops-sprint/blog-app:latest
+        - name: sprint-app
+          image: us-central1-docker.pkg.dev/ce-ps3/devops-sprint/sprint:latest
           imagePullPolicy: IfNotPresent
           ports:
           - containerPort: 80
