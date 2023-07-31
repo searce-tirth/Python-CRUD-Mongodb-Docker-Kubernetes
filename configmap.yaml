@@ -4,4 +4,4 @@ metadata:
   name: replica-configmap
   namespace: your-namespace
 data:
-  replicas: "3"
+  replicas: "1"
