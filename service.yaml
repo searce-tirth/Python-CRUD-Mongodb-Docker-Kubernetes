@@ -1,13 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: blog-app-svc # Name of Service
+  name: sprint-app-svc # Name of Service
   annotations:
     cloud.google.com/neg: '{"ingress": true}' # Creates a NEG after an Ingress is created
 spec: # Service's specification
   type: ClusterIP
   selector:
-    app: blog-app # Selects Pods labelled run: neg-demo-app
+    app: sprint-app # Selects Pods labelled run: neg-demo-app
   ports:
   - name: http
     port: 80 # Service's port
